@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
-import api from '../../services/api';
-import './styles.css';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api from "../../services/api";
+import "./styles.css";
 
 export default function Dashboard() {
   const [spots, setSpots] = useState([]);
 
   useEffect(() => {
     async function loadSpots() {
-      const user_id = localStorage.getItem('user');
-      const response = await api.get('/dashboard', {
+      const user_id = localStorage.getItem("user");
+      const response = await api.get("/dashboard", {
         headers: { user_id }
       });
 
@@ -18,13 +18,14 @@ export default function Dashboard() {
     loadSpots();
   }, []);
 
-  
   return (
     <>
       <ul className="spot-list">
-        {spots.map (spot =>  (
+        {spots.map(spot => (
           <li key={spot._id}>
-            <header></header>
+            <header
+              style={{ backgroundImage: `url(${spot.thumbnail_url})` }}
+            ></header>
             <strong>{spot.company}</strong>
             <span>{spot.price ? `R$${spot.price}/dia` : `GRATUITO`}</span>
           </li>
@@ -34,7 +35,6 @@ export default function Dashboard() {
       <Link to="/new">
         <button className="btn">Cadastrar novo spot</button>
       </Link>
-
     </>
-  )
+  );
 }
